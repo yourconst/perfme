@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["ES2022", "DOM"],
+    "target": "es2020",
+    "moduleResolution": "Node",
+    "declaration": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "exclude": [
+    "./node_modules",
+    "./test",
+    "./dist",
+    "./dist_test"
+  ]
+}

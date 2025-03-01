@@ -1,0 +1,38 @@
+{
+  "name": "perfme",
+  "version": "0.0.1",
+  "description": "Usefull performance measuring utility",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "tsc --project tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourconst/perfme.git"
+  },
+  "keywords": [
+    "performance",
+    "measuring",
+    "perfme"
+  ],
+  "author": "yourconst",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/yourconst/perfme/issues"
+  },
+  "homepage": "https://github.com/yourconst/perfme#readme",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "printab": "^0.0.2"
+  }
+}
