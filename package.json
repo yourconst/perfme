@@ -1,38 +1,39 @@
 {
   "name": "perfme",
-  "version": "0.0.2",
-  "description": "Usefull performance measuring utility",
+  "version": "0.1.0",
+  "description": "Library for measuring and comparing function performance",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test": "jest",
-    "build": "tsc --project tsconfig.json",
-    "prepublishOnly": "npm run build"
+  "bin": {
+    "perfme": "./dist/cli.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yourconst/perfme.git"
+  "scripts": {
+    "build": "tsc && npm run copy-assets",
+    "copy-assets": "cp src/frontend.html dist/ 2>/dev/null || true",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "performance",
-    "measuring",
-    "perfme"
+    "benchmark",
+    "comparison",
+    "testing",
+    "measure",
+    "measuring"
   ],
   "author": "yourconst",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/yourconst/perfme/issues"
-  },
-  "homepage": "https://github.com/yourconst/perfme#readme",
+  "license": "MIT",
   "devDependencies": {
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.6",
-    "typescript": "^5.7.3"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "printab": "^0.0.2"
+    "express": "^4.18.2",
+    "browserify": "^17.0.1",
+    "tsify": "^5.0.4",
+    "ts-node": "^10.9.2",
+    "ws": "^8.14.2"
   }
 }
