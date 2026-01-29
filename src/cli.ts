@@ -421,7 +421,8 @@ console.log('Bundling test files for browser...');
 bundleTestFiles(testFilePaths, projectRoot, hasTypeScript, shouldWrapInDescribe)
   .then(() => {
     // Start the server
-    const port = options.port ?? (parseInt(process.env.PORT || '0', 10) || 0); // 0 means find free port
+    // Default to 3000 if not specified, or use PORT env var, or find free port
+    const port = options.port ?? (parseInt(process.env.PORT || '3000', 10) || 3000);
     createServer(port, testFilePaths[0]); // Pass first file for compatibility
   })
   .catch((error) => {

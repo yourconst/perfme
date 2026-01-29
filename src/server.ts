@@ -3,6 +3,7 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { createServer as createHttpServer } from 'http';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { createServer as createNetServer } from 'net';
 import { MeasurementEngine } from './MeasurementEngine';
 import { MeasurementConfig, MeasurementProgress, MeasurementResult, CustomMeasurementResult } from './types';
 import { getCustomCharts, getStyles, getSettings, getAggregateMeasureCharts, getAggregateEvaluateCharts } from './index';
@@ -130,21 +131,77 @@ export function createServer(port: number = 0, testFilePath?: string): void {
     });
   });
 
-  // Find free port if port is 0
-  if (port === 0) {
-    server.listen(0, () => {
-      const actualPort = (server.address() as any)?.port || 3000;
-      console.log(`Server started on http://localhost:${actualPort}`);
-      console.log(`WebSocket server on ws://localhost:${actualPort}`);
-      console.log(`Open browser and navigate to http://localhost:${actualPort}`);
-    });
-  } else {
-    server.listen(port, () => {
-      console.log(`Server started on http://localhost:${port}`);
-      console.log(`WebSocket server on ws://localhost:${port}`);
-      console.log(`Open browser and navigate to http://localhost:${port}`);
+  // Helper function to check if port is available
+  function isPortAvailable(port: number): Promise<boolean> {
+    return new Promise((resolve) => {
+      const testServer = createNetServer();
+      testServer.once('error', (err: any) => {
+        if (err.code === 'EADDRINUSE') {
+          resolve(false);
+        } else {
+          resolve(false);
+        }
+      });
+      testServer.once('listening', () => {
+        testServer.once('close', () => resolve(true));
+        testServer.close();
+      });
+      testServer.listen(port);
     });
   }
+
+  // Helper function to find a free port starting from a given port
+  async function findFreePort(startPort: number): Promise<number> {
+    for (let port = startPort; port < startPort + 100; port++) {
+      if (await isPortAvailable(port)) {
+        return port;
+      }
+    }
+    // If no port found in range, let the OS assign one
+    return 0;
+  }
+
+  // Try to use the specified port, or find a free one if it's not available
+  async function startServer() {
+    let actualPort = port;
+    
+    // If port is 0, find a free port starting from 3000
+    if (port === 0) {
+      actualPort = await findFreePort(3000);
+    } else {
+      // Check if the specified port is available
+      const available = await isPortAvailable(port);
+      if (!available) {
+        console.log(`Port ${port} is not available, finding a free port...`);
+        actualPort = await findFreePort(port + 1);
+      }
+    }
+
+    server.listen(actualPort === 0 ? 0 : actualPort, () => {
+      const finalPort = (server.address() as any)?.port || actualPort;
+      console.log(`Server started on http://localhost:${finalPort}`);
+      console.log(`WebSocket server on ws://localhost:${finalPort}`);
+      console.log(`Open browser and navigate to http://localhost:${finalPort}`);
+    });
+
+    server.on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${actualPort} is already in use. Trying to find a free port...`);
+        findFreePort(actualPort + 1).then((freePort) => {
+          server.listen(freePort === 0 ? 0 : freePort, () => {
+            const finalPort = (server.address() as any)?.port || freePort;
+            console.log(`Server started on http://localhost:${finalPort}`);
+            console.log(`WebSocket server on ws://localhost:${finalPort}`);
+            console.log(`Open browser and navigate to http://localhost:${finalPort}`);
+          });
+        });
+      } else {
+        console.error('Server error:', err);
+      }
+    });
+  }
+
+  startServer();
 }
 
 async function runMeasurementsOnBackend(
