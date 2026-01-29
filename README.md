@@ -10,7 +10,7 @@ npm install perfme
 
 ## Web interface
 
-![Screenshot](https://raw.githubusercontent.com/yourconst/perfme/main/images/page.screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/yourconst/perfme/refs/heads/master/images/page.screenshot.png)
 
 ## Usage
 
