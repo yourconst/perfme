@@ -1,0 +1,3 @@
+# Exclude dynamically generated worker files from npm package
+
+
