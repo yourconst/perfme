@@ -1,6 +1,6 @@
 {
   "name": "perfme",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Library for measuring and comparing function performance",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
