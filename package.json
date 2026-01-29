@@ -4,6 +4,9 @@
   "description": "Library for measuring and comparing function performance",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "perfme": "./dist/cli.js"
   },
@@ -23,6 +26,14 @@
   ],
   "author": "yourconst",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourconst/perfme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourconst/perfme/issues"
+  },
+  "homepage": "https://github.com/yourconst/perfme#readme",
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.0.0",
